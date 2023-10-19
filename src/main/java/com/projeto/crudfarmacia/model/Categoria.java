@@ -1,9 +1,15 @@
 package com.projeto.crudfarmacia.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -24,6 +30,10 @@ public class Categoria {
     @Size(min = 10, max = 255, message = "A descição da categoria não pode ser menor que 10 e ultrapassar 255 caracteres.")
 	private String descricao;
 
+	@OneToMany(mappedBy = "idCategoria", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("idCategoria")
+    private List<Produto> produtos; 
+	
 	public Long getId() {
 		return id;
 	}
@@ -46,6 +56,14 @@ public class Categoria {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	}
 	
 	
